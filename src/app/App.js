@@ -1,33 +1,24 @@
-import React, { useState } from "react";
-import "./App.css";
-import "../header/Header.css";
-import "../scoreboard/Scoreboard.css";
-import "../result/Result.css";
-import "../choice/Choice.css";
+import React, { useState } from 'react';
+import './App.css';
+import '../scoreboard/Scoreboard.css';
+import '../result/Result.css';
+import '../choice/Choice.css';
 
-const Choices = props => (
+const Choices = (props) => (
   <div className="choices">
-    {props.choices.map(choice => (
+    {props.choices.map((choice) => (
       <Choice key={choice} choice={choice} />
     ))}
   </div>
 );
 
-function Choice(props) {
+const Choice = (props) => {
   return (
     <div className="choice">
       <img src={`images/${props.choice}.png`} alt="" />
     </div>
   );
-}
-
-function Header() {
-  return (
-    <header>
-      <h1>Rock Paper Scissors</h1>
-    </header>
-  );
-}
+};
 
 function Scoreboard(props) {
   return (
@@ -53,12 +44,14 @@ function Result() {
 
 function App() {
   const [score, setScore] = useState({ wins: 0, losses: 0 });
-  const options = ["rock", "paper", "scissors"];
+  const options = ['rock', 'paper', 'scissors'];
 
   return (
     <div className="App">
-      <Header />
-      <Scoreboard score={score}/>
+      <header>
+        <h1>Rock Paper Scissors</h1>
+      </header>
+      <Scoreboard score={score} />
       <Result />
       <Choices choices={options} />
       <p>Make your move!</p>
