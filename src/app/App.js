@@ -1,9 +1,9 @@
 import React from "react";
 import "./App.css";
-import "./Header.css";
-import "./Scoreboard.css";
-import "./Result.css";
-import "./Choice.css";
+import "../header/Header.css";
+import "../scoreboard/Scoreboard.css";
+import "../result/Result.css";
+import "../choice/Choice.css";
 
 const Choices = props => (
   <div className="choices">
