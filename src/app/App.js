@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import "../header/Header.css";
 import "../scoreboard/Scoreboard.css";
@@ -29,7 +29,7 @@ function Header() {
   );
 }
 
-function Scoreboard() {
+function Scoreboard(props) {
   return (
     <div className="score-board">
       <div id="user-label" className="badge">
@@ -38,7 +38,7 @@ function Scoreboard() {
       <div id="computer-label" className="badge">
         comp
       </div>
-      <span id="user-score">0</span>:<span id="computer-score">0</span>
+      <span id="user-score">{props.score.wins}</span>:<span id="computer-score">{props.score.losses}</span>
     </div>
   );
 }
@@ -52,12 +52,13 @@ function Result() {
 }
 
 function App() {
+  const [score, setScore] = useState({ wins: 0, losses: 0 });
   const options = ["rock", "paper", "scissors"];
 
   return (
     <div className="App">
       <Header />
-      <Scoreboard />
+      <Scoreboard score={score}/>
       <Result />
       <Choices choices={options} />
       <p>Make your move!</p>
