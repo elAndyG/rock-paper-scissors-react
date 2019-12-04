@@ -1,0 +1,9 @@
+Header {
+    background: white;
+    padding: 20px;
+  }
+  
+  header > h1 {
+    columns: #25272e;
+    text-align: center;
+  }
