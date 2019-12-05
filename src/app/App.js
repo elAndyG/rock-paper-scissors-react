@@ -1,87 +1,12 @@
 import React, { useState } from 'react';
+
 import './App.css';
-import '../scoreboard/Scoreboard.css';
-import '../result/Result.css';
-import '../choice/Choice.css';
 import { choiceOptions, game } from '../game/game';
+import Choices from '../choice/choice';
+import Scoreboard from '../scoreboard/scoreboard';
+import { Result } from '../result/result';
 
 // moved the images to imgur.com so they are accessible through stackblitz.
-const imageUrlSwitch = {
-  rock: `https://i.imgur.com/fkqCKgz.png`,
-  paper: `https://i.imgur.com/gVdtAZx.png`,
-  scissors: `https://i.imgur.com/UK6e04z.png`
-};
-
-const Choices = (props) => (
-  <div className="choices">
-    {props.choices.map((choice) => (
-      <Choice key={choice} choice={choice} onClick={() => props.onClick(choice)} />
-    ))}
-  </div>
-);
-
-const updateStatusNotificationColors = (status, setState) => {
-  let notificationClass = '';
-  switch (status) {
-    case 'win':
-      notificationClass = 'green-glow';
-      break;
-    case 'lose':
-      notificationClass = 'red-glow';
-      break;
-    default:
-      notificationClass = 'gray-glow';
-      break;
-  }
-
-  setState({ class: notificationClass });
-  setTimeout(() => setState({ class: '' }), 1000);
-};
-
-const Choice = (props) => {
-  const [choiceStatus, setChoiceStatus] = useState({ class: '' });
-
-  return (
-    <div
-      className={`choice ${choiceStatus.class}`}
-      onClick={() => {
-        const result = props.onClick(props.choice);
-        updateStatusNotificationColors(result.status, setChoiceStatus);
-      }}
-    >
-      <img src={imageUrlSwitch[props.choice]} alt="" />
-      {/* <img src={`images/${props.choice}.png`} alt="" /> */}
-    </div>
-  );
-};
-
-function Scoreboard(props) {
-  return (
-    <div className="score-board">
-      <div id="user-label" className="badge">
-        user
-      </div>
-      <div id="computer-label" className="badge">
-        comp
-      </div>
-      <span id="user-score">{props.score.wins}</span>:<span id="computer-score">{props.score.losses}</span>
-    </div>
-  );
-}
-
-function Result(props) {
-  return (
-    <div className="result">
-      <p>
-        {props.gameStatus.player} covers {props.gameStatus.computer}. You win!
-      </p>
-    </div>
-  );
-}
-
-const onChoiceClick = (choice) => {
-  return game(choice);
-};
 
 function App() {
   const [gameStatus, setGameStatus] = useState({
@@ -91,6 +16,29 @@ function App() {
     player: 'Rock',
     computer: 'Paper'
   });
+
+  const onChoiceClick = (choice) => {
+    const result = game(choice);
+    const updatedGameStatus = { ...gameStatus };
+    updatedGameStatus.status = result.status;
+
+    switch (result.status) {
+      case 'win':
+        updatedGameStatus.wins += 1;
+        break;
+      case 'lose':
+        updatedGameStatus.losses += 1;
+        break;
+      default:
+        break;
+    }
+    updatedGameStatus.player = result.userChoice;
+    updatedGameStatus.computer = result.computerChoice;
+
+    setGameStatus({ ...updatedGameStatus, ...{ player: result.userChoice, computer: result.computerChoice } });
+
+    return result;
+  };
 
   return (
     <div className="App">

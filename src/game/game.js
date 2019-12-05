@@ -10,6 +10,7 @@ export const game = (userChoice) => {
   const rock = 'rock';
   const scissors = 'scissors';
   const paper = 'paper';
+
   switch (userChoice.toLowerCase() + computerChoice.toLowerCase()) {
     case rock + scissors:
     case paper + rock:
@@ -19,7 +20,6 @@ export const game = (userChoice) => {
     case rock + paper:
     case paper + scissors:
       return { status: 'lose', userChoice, computerChoice };
-
     default:
       return { status: 'draw', userChoice, computerChoice };
   }
