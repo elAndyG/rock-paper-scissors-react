@@ -3,6 +3,7 @@ import './App.css';
 import '../scoreboard/Scoreboard.css';
 import '../result/Result.css';
 import '../choice/Choice.css';
+import { choiceOptions, game } from '../game/game';
 
 // moved the images to imgur.com so they are accessible through stackblitz.
 const imageUrlSwitch = {
@@ -19,12 +20,33 @@ const Choices = (props) => (
   </div>
 );
 
+const updateStatusNotificationColors = (status, setState) => {
+  let notificationClass = '';
+  switch (status) {
+    case 'win':
+      notificationClass = 'green-glow';
+      break;
+    case 'lose':
+      notificationClass = 'red-glow';
+      break;
+    default:
+      notificationClass = 'gray-glow';
+      break;
+  }
+
+  setState({ class: notificationClass });
+  setTimeout(() => setState({ class: '' }), 1000);
+};
+
 const Choice = (props) => {
+  const [choiceStatus, setChoiceStatus] = useState({ class: '' });
+
   return (
     <div
-      className="choice"
+      className={`choice ${choiceStatus.class}`}
       onClick={() => {
-        props.onClick();
+        const result = props.onClick(props.choice);
+        updateStatusNotificationColors(result.status, setChoiceStatus);
       }}
     >
       <img src={imageUrlSwitch[props.choice]} alt="" />
@@ -47,30 +69,37 @@ function Scoreboard(props) {
   );
 }
 
-function Result() {
+function Result(props) {
   return (
     <div className="result">
-      <p>Paper covers rock. You win!</p>
+      <p>
+        {props.gameStatus.player} covers {props.gameStatus.computer}. You win!
+      </p>
     </div>
   );
 }
 
-function App() {
-  const [score, setScore] = useState({ wins: 0, losses: 0 });
-  const options = ['rock', 'paper', 'scissors'];
+const onChoiceClick = (choice) => {
+  return game(choice);
+};
 
-  const onChoiceClick = (choice) => {
-    console.log(`clicked ${choice}`);
-  };
+function App() {
+  const [gameStatus, setGameStatus] = useState({
+    wins: 0,
+    losses: 0,
+    status: 'win',
+    player: 'Rock',
+    computer: 'Paper'
+  });
 
   return (
     <div className="App">
       <header>
         <h1>Rock Paper Scissors</h1>
       </header>
-      <Scoreboard score={score} />
-      <Result />
-      <Choices choices={options} onClick={onChoiceClick} />
+      <Scoreboard score={gameStatus} />
+      <Result gameStatus={gameStatus} />
+      <Choices choices={choiceOptions} onClick={onChoiceClick} />
       <p>Make your move!</p>
     </div>
   );
