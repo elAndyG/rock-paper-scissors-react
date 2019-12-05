@@ -4,6 +4,13 @@ import '../scoreboard/Scoreboard.css';
 import '../result/Result.css';
 import '../choice/Choice.css';
 
+// moved the images to imgur.com so they are accessible through stackblitz.
+const imageUrlSwitch = {
+  rock: `https://i.imgur.com/fkqCKgz.png`,
+  paper: `https://i.imgur.com/gVdtAZx.png`,
+  scissors: `https://i.imgur.com/UK6e04z.png`
+};
+
 const Choices = (props) => (
   <div className="choices">
     {props.choices.map((choice) => (
@@ -15,7 +22,8 @@ const Choices = (props) => (
 const Choice = (props) => {
   return (
     <div className="choice">
-      <img src={`images/${props.choice}.png`} alt="" />
+      <img src={imageUrlSwitch[props.choice]} alt="" />
+      {/* <img src={`images/${props.choice}.png`} alt="" /> */}
     </div>
   );
 };
