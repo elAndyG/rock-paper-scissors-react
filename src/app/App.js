@@ -14,14 +14,19 @@ const imageUrlSwitch = {
 const Choices = (props) => (
   <div className="choices">
     {props.choices.map((choice) => (
-      <Choice key={choice} choice={choice} />
+      <Choice key={choice} choice={choice} onClick={() => props.onClick(choice)} />
     ))}
   </div>
 );
 
 const Choice = (props) => {
   return (
-    <div className="choice">
+    <div
+      className="choice"
+      onClick={() => {
+        props.onClick();
+      }}
+    >
       <img src={imageUrlSwitch[props.choice]} alt="" />
       {/* <img src={`images/${props.choice}.png`} alt="" /> */}
     </div>
@@ -54,6 +59,10 @@ function App() {
   const [score, setScore] = useState({ wins: 0, losses: 0 });
   const options = ['rock', 'paper', 'scissors'];
 
+  const onChoiceClick = (choice) => {
+    console.log(`clicked ${choice}`);
+  };
+
   return (
     <div className="App">
       <header>
@@ -61,7 +70,7 @@ function App() {
       </header>
       <Scoreboard score={score} />
       <Result />
-      <Choices choices={options} />
+      <Choices choices={options} onClick={onChoiceClick} />
       <p>Make your move!</p>
     </div>
   );
