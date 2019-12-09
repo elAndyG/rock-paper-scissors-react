@@ -1,12 +1,12 @@
 .score-board {
   border: 3px solid white;
-  margin: 20px auto;
-  border-radius: 4px;
-  text-align: center;
-  width: 200px;
-  color: white;
-  font-size: 45px;
   padding: 15px 20px;
+  margin: 20px auto;
+  width: 200px;
+  border-radius: 4px;
+  color: white;
+  text-align: center;
+  font-size: 45px;
   position: relative;
 }
 
